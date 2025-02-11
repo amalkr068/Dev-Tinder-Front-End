@@ -26,6 +26,12 @@ useEffect(()=>{
     getFeed()
 },[])
 
+if(!feed) return
+
+if(feed.length <= 0) return <h1 className='text-center text-3xl mt-6'>No more Feeds</h1>
+
+
+
 
 
   return (

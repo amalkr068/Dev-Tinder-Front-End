@@ -9,6 +9,9 @@ const Login = () => {
 
   const [ emailId,setEmailId ] = useState("amal@gmail.com")
   const [ password,setPassword ] = useState("Amal@123")
+  const [ firstName,setFirstName ] = useState("")
+  const [ lastName,setLastName ] = useState("")
+  const [ isLoginForm,setIsLogInForm ] = useState(false)
   const [ error,setError ] = useState("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -17,7 +20,7 @@ const Login = () => {
     try {
       const res = await axios.post(BASE_URL+"/login",{ emailId,password }
        ,{withCredentials:true})
-      //console.log("Response :",res.data.user)
+     
       dispatch(addUser(res.data.user))
       return navigate("/")
     } catch (error) {
@@ -29,6 +32,19 @@ const Login = () => {
 
 
 
+  const handleSignup = async ()=>{
+    try {
+      const res = await axios.post(BASE_URL+"/signup",{ firstName,lastName,emailId,password }, { withCredentials:true })
+      console.log(res.data.data)
+      dispatch(addUser(res?.data?.data))
+      return navigate("/profile")
+    } catch (error) {
+      setError(err?.response?.data || "Something Went Wrong")
+    }
+  }
+
+
+
 
 
 
@@ -36,7 +52,31 @@ const Login = () => {
     <div  className="flex justify-center items-center  mt-16">
       <div className="card bg-base-300 w-96 shadow-xl">
   <div className="card-body">
-    <h2 className="card-title justify-center">Log In</h2>
+    <h2 className="card-title justify-center">{ isLoginForm ? "Log In" : "Sign up"}</h2>
+    {!isLoginForm && (<>
+    <div className='mt-1'>
+  <label className="form-control w-full max-w-xs">
+    
+  <div className="label">
+    <span className="label-text">First Name</span>
+    
+  </div>
+  <input type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="input input-bordered w-full max-w-xs"/>
+  
+</label>
+  </div>
+  <div className='mt-1'>
+  <label className="form-control w-full max-w-xs">
+  <div className="label">
+    <span className="label-text">Last Name</span>
+    
+  </div>
+  <input type="text" value={lastName} onChange={(e)=>setLastName(e.target.value)} className="input input-bordered w-full max-w-xs"/>
+  
+</label>
+  </div>
+  </>
+    )}
   <div className='mt-1'>
   <label className="form-control w-full max-w-xs">
   <div className="label">
@@ -47,7 +87,7 @@ const Login = () => {
   
 </label>
   </div>
-  <div className='my-0'>
+  <div className='my-1'>
   <label className="form-control w-full max-w-xs">
   <div className="label">
     <span className="label-text">Password</span>
@@ -57,10 +97,11 @@ const Login = () => {
   
 </label>
   </div>
-  <p className='text-red-600'>{error}</p>
+  {error && <p className='text-red-600'>{error}</p>}
     <div className="card-actions justify-center mt-2">
-      <button className="btn btn-primary" onClick={handleLogin}>Log In</button>
+      <button className="btn btn-primary" onClick={isLoginForm ? handleLogin : handleSignup}>{isLoginForm ? "Log in" : "Sign up"}</button>
     </div>
+    <p className='m-auto mt-1 cursor-pointer' onClick={()=>setIsLogInForm((value)=> !value)}>{ isLoginForm ? "New user ? Signup" : "Already an user? Login here"}</p>
   </div>
 </div>
     </div>
