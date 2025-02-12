@@ -4,6 +4,7 @@ import feedReducer from "./feedSlice"
 import Connections from "../components/Connections";
 import connectionReducer from "./connectionSlice"
 import requestReducer from "./requestSlice"
+import adminfeedReducer from "./adminFeedSlice"
 
 
 const appStore = configureStore({
@@ -11,7 +12,8 @@ const appStore = configureStore({
         user:userReducer,
         feed:feedReducer,
         connections:connectionReducer,
-        requests:requestReducer
+        requests:requestReducer,
+        adminfeed:adminfeedReducer
     }
 })
 

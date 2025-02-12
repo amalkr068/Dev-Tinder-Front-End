@@ -5,9 +5,11 @@ import { useDispatch } from 'react-redux'
 import {removeUserFromFeed} from "../utils/feedSlice"
 
 const userCard = ({user}) => {
-     //console.log(user)
+    
     const { _id,firstName,lastName,age,gender,photoUrl,about } = user
     const dispatch = useDispatch()
+
+    
 
     const handleSendRequest = async (status,id)=>{
       try {
@@ -15,9 +17,6 @@ const userCard = ({user}) => {
         const res = await axios.post(BASE_URL+"/request/send/"+status+"/"+id,{},{ withCredentials:true })
         dispatch(removeUserFromFeed(id))
         
-
-
-
       } catch (error) {
         console.log(error)
       }

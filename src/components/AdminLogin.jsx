@@ -5,12 +5,13 @@ import { addUser } from '../utils/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../utils/constants'
 
-const Login = () => {
+const AdminLogin = () => {
 
   const [ emailId,setEmailId ] = useState("")
   const [ password,setPassword ] = useState("")
   const [ firstName,setFirstName ] = useState("")
   const [ lastName,setLastName ] = useState("")
+  const [ isAdmin,setIsAdmin ] = useState("true")
   const [ isLoginForm,setIsLogInForm ] = useState(false)
   const [ error,setError ] = useState("")
   const dispatch = useDispatch()
@@ -18,11 +19,10 @@ const Login = () => {
 
   const handleLogin = async ()=>{
     try {
-      const res = await axios.post(BASE_URL+"/login",{ emailId,password }
+      const res = await axios.post(BASE_URL+"/admin/login",{ emailId,password }
        ,{withCredentials:true})
-     
-      dispatch(addUser(res.data.user))
-      return navigate("/")
+     dispatch(addUser(res.data.user))
+      return navigate("/admin/feed")
     } catch (error) {
       setError(error?.response?.data || "Something Went Wrong...!!")
       console.log(error.response.data)
@@ -34,10 +34,10 @@ const Login = () => {
 
   const handleSignup = async ()=>{
     try {
-      const res = await axios.post(BASE_URL+"/signup",{ firstName,lastName,emailId,password }, { withCredentials:true })
+      const res = await axios.post(BASE_URL+"/admin/signup",{ firstName,lastName,emailId,password,isAdmin }, { withCredentials:true })
       
       dispatch(addUser(res?.data?.data))
-      return navigate("/profile")
+      return navigate("/admin/feed")
     } catch (error) {
       setError(err?.response?.data || "Something Went Wrong")
     }
@@ -52,7 +52,7 @@ const Login = () => {
     <div  className="flex justify-center items-center  mt-16">
       <div className="card bg-base-300 w-96 shadow-xl">
   <div className="card-body">
-    <h2 className="card-title justify-center">{ isLoginForm ? "Log In" : "Sign up"}</h2>
+    <h2 className="card-title justify-center">{ isLoginForm ? " Admin Log In" : "Admin Sign up"}</h2>
     {!isLoginForm && (<>
     <div className='mt-1'>
   <label className="form-control w-full max-w-xs">
@@ -108,4 +108,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default AdminLogin

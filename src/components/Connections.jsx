@@ -14,7 +14,7 @@ const dispatch = useDispatch()
         try {
             
             const res = await axios.get(BASE_URL+"/user/connections",{ withCredentials:true })
-            console.log(res.data.data)
+            
             dispatch(addConnections(res.data.data))
 
 
@@ -57,7 +57,7 @@ const dispatch = useDispatch()
              {age && gender && <h3>{age +" "+gender}</h3>}
               {about && <p>{about}</p>}
               <div className="card-actions justify-end">
-                <button className="btn btn-primary">Watch</button>
+                <button className="btn btn-primary">Chat</button>
                 
               </div>
             </div>
